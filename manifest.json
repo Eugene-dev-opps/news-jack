@@ -1,0 +1,32 @@
+{
+    "name": "newsletter",
+    "permissions": [
+        "storage",
+        "alarms",
+        "bookmarks",
+        "tabs"
+    ],
+    "version": "2.0.0",
+    "description": "latest news",
+   "background": {
+    "service_worker": "background.js",
+    "type": "module"
+    },
+    "default_locale": "en",
+   
+    "manifest_version": 3,
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2W3i3exej/ZEZZwJGTGK0cvjWWGthYyemfUplRa+3+udtB7Zn3mnf1XYHTPdr1R7k24XR1PchmwrQVsnllhl1blpr4WI6X19PrzGiyHgdWUapCwyNrK4nmZPL1GakNOdiIiCWUBGwhpgaDHKI58w5chGp1uTzdc7IP0YJ1IEiWY9r6vaVlUfQ0nnBi11kXJ467xwg6T3XQdj93G8DkjOzyq6d9F8JgueUmLVAzknKW62bzL0yend9uBadgPqrteS+B/tRRqW3drtfevtC6PYbDeBB1bup6Km6VLHhnKdeCq6H6WxBKgYsE3oAQX5MMY/0FcKkwK011NFo5Etb+rGIQIDAQAB",
+    "author": "Kingstonel Eugene",
+    "icons": {
+        "32":"/icon/newsletter icon.png"
+    },
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "/newsletter.html",
+        "action": {
+            "default_icon": {
+                "128": "icon/newsletter icon.png"
+            }
+    }
+}
+}

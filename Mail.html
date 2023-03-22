@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">  
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Font+Name">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="Mail.css">
+    <title>NEWS JACK</title> 
+  </head>
+  <body>
+    <nav class="sidebar close">
+      <header>
+          <div class="image-text">
+              <span class="image">
+                  <img src="logo.png" alt="">
+              </span>
+
+              <div class="text logo-text">
+                  <span class="name">NJ</span>
+                  <span class="profession">News Letter</span>
+              </div>
+          </div>
+
+          <i class='bx bx-chevron-right toggle'></i>
+      </header>
+
+      <div class="menu-bar">
+          <div class="menu">
+
+              <li class="search-box">
+                  <i class='bx bx-search icon'></i>
+                  <input type="search" placeholder="Search...">
+              </li>
+
+              <ul class="menu-links">
+                  <li class="nav-link">
+                      <a href="index.html">
+                          <i class='bx bx-home-alt icon' ></i>
+                          <span class="text nav-text">Dashboard</span>
+                      </a>
+                  </li>
+
+                  <li class="nav-link">
+                      <a href="#">
+                          <i class=' bx bx-folder-open icon' ></i>
+                          <span class="text nav-text">My Notes</span>
+                      </a>
+                  </li>
+
+                  <li class="nav-link">
+                      <a href="#">
+                            <i class='bx bx-star icon' ></i>               
+                                <span class="text nav-text">Starred</span>           
+                         </a>              
+                 </li>   
+
+                  <li class="nav-link">
+                      <a href="#">
+                          <i class=' bx bx-paper-plane icon' ></i>
+                          <span class="text nav-text">Subscriptions</span>
+                      </a>
+                  </li>
+
+                  <li class="nav-link">
+                      <a href="#">
+                          <i class='bx bx-download  icon' ></i>
+                          <span class="text nav-text">Downloads</span>
+                      </a>
+                  </li>
+
+                  <li class="nav-link">
+                         <a href="#">
+                               <i class='bx bx-cog icon' ></i>               
+                                   <span class="text nav-text">Setting</span>           
+                            </a>              
+                    </li>                                   
+              </ul>
+          </div>
+
+          <div class="bottom-content">
+              <li class="">
+                  <a href="#">
+                      <i class='bx bx-log-out icon' ></i>
+                      <span class="text nav-text">Logout</span>
+                  </a>
+              </li>
+
+              <li class="mode">
+                  <div class="sun-moon">
+                      <i class='bx bx-moon icon moon'></i>
+                      <i class='bx bx-sun icon sun'></i>
+                  </div>
+                  <span class="mode-text text">Dark mode</span>
+
+                  <div class="toggle-switch">
+                      <span class="switch"></span>
+                  </div>
+              </li>
+              
+          </div>
+      </div>
+
+  </nav>
+
+  <section class="home">
+      <!--Header start-->
+      <div class="header">
+          <div class="header__left">
+              <span class="material-icons"></span>
+              <span class="material-icons"></span>
+      </div>
+
+      <div class="header__middle">
+          <img src="logo.png" height="50px" alt="">
+          <h2>NewsJack</h2>
+      </div>
+
+      <div class="header__right">
+          
+      </div>
+
+  </div>
+      <!--Header ends-->
+
+      <div class="mail">
+        <div class="mail__tools">
+          <div class="main__toolsLeft">
+            <button style="background-color: white; border: none; cursor: pointer;"><i style="color: gray;" onclick="javascript:history.back()" class="bx bx-arrow-back icon "></i> </button>
+          
+          </div>
+
+          <div class="main__toolsMiddle">
+
+          </div>
+
+          <div class="main__toolsRight">
+           <i style="color: gray;" class="bx bx-copy"></i> 
+           <i style="color: gray;" class=' bx bx-dots-vertical '></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mail__body">
+          <div class="mail__bodyHeader">
+            <h2>Subject</h2>
+            <span style="color: yellow;" class="material-icons">label_important</span>
+            <p>Title</p>
+            <p class="mail__time">10pm</p>
+        </div>
+
+        <div class="mail__message">
+          <p> This is a message</p>
+        </div>
+      </div>
+
+</section>
+
+
+
+<script src="SendMail.js"></script>
+      <script src="script.js"></script>
+    <script src="server.js"></script>
+    <script src="index.js"></script>
+    <script src="Mail.js"></script>
+  </body>
+</html>

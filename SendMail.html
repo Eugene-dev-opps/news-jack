@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send Mail</title>
+    <link rel="stylesheet" href="./SendMail.css" />
+  </head>
+  <body>
+    <div class="sendMail">
+      <div class="sendMail_header">
+        <h3>New Message</h3>
+        <svg
+          class="sendMail_close"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          onclick="closeSendMessage()"
+        >
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </div>
+      <form onsubmit="onSubmit(event)">
+        <input type="email" placeholder="To" name="to" class="" required />
+
+    <p id="to-error" class="sendMail_error" style="display:none">To is required</p>
+
+    <input
+      type="text"
+      placeholder="Subject"
+      name="subject"
+      class=""
+      required
+    />
+
+    <p id="subject-error" class="sendMail_error" style="display:none">
+      Subject is required
+    </p>
+
+    <textarea
+      placeholder="Message..."
+      name="message"
+      class="sendMail_message"
+      required
+    ></textarea>
+
+    <p id="message-error" class="sendMail_error" style="display:none">
+      Message is required
+    </p>
+
+    <div class="sendMail_options">
+      <button
+        class="sendMail_send"
+        type="submit"
+        onclick="onSubmit(event)"
+      >
+        Send
+      </button>
+    </div>
+  </form>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
+<script>
+  const firebaseConfig = {
+    // your firebase config
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.firestore();
+
+  function onSubmit(event) {
+    event.preventDefault();
+    const toInput = document.getElementsByName("to")[0];
+    const subjectInput = document.getElementsByName("subject")[0];
+    const messageInput = document.getElementsByName("message")[0];
+
+    const to = toInput.value.trim();
+    const subject = subjectInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (to === "") {
+      document.getElementById("to-error").style.display = "block";
+      return;
+    } else {
+      document.getElementById("to-error").style.display = "none";
+    }
+
+    if (subject === "") {
+      document.getElementById("subject-error").style.display = "block";
+      return;
+    } else {
+      document.getElementById("subject-error").style.display = "none";
+    }
+
+    if (message === "") {
+      document.getElementById("message-error").style.display = "block";
+      return;
+    } else {
+      document.getElementById("message-error").style.display = "none";
+    }
+
+    db.collection("emails")
+      .add({
+        to,
+        subject,
+        message,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        closeSendMessage();
+      });
+  }
+
+  function closeSendMessage() {
+    // your closeSendMessage implementation
+  }
+</script>
+
+  </body>
+</html>
