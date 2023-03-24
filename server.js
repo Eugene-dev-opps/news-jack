@@ -5,12 +5,12 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-app.use(express.static('D:/NEWS ADV')); // serve static files from the public directory
+app.use(express.static('D:/NEWS ADV/public')); // serve static files from the public directory
 
 const es = new Client({ node: 'http://localhost:9200' });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './NEWS ADV/index.html'));
+    res.sendFile(path.join(__dirname, './NEWS ADV/public/index.html'));
 });
 
 app.get('/index.html', async (req, res) => {

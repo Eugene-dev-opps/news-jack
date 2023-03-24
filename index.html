@@ -11,8 +11,39 @@
     href="https://fonts.googleapis.com/css?family=Font+Name">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-
+    <script src="filter.js"></script>
     <title>NEWS JACK</title> 
+
+    <style>
+		.filter-icon {
+			font-size: 24px;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+	</style>
+
+    <!-- Import the Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAElTtiYcC_BlSBjZAfwuaNm35PMz8fmVM",
+          authDomain: "newsjack.firebaseapp.com",
+          projectId: "newsjack",
+          storageBucket: "newsjack.appspot.com",
+          messagingSenderId: "1039042103940",
+          appId: "1:1039042103940:web:b1f479b1357d54050b50d1",
+          measurementId: "G-30T21C81RR"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        const admin = require("firebase-admin");
+            admin.initializeApp();
+    </script>
 
 </head>
 <body>
@@ -49,14 +80,14 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="">
                             <i class=' bx bx-folder-open icon' ></i>
                             <span class="text nav-text">Bookmarks</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="Subscribers.html">
+                        <a href="">
                             <i class=' bx bx-paper-plane icon' ></i>
                             <span class="text nav-text">Subscriptions</span>
                         </a>
@@ -128,11 +159,10 @@
                 <div class="emailList__setingsLeft">
                     <input type="checkbox" onclick="checkUncheck(this)" /><b>Select All</b>
                     <span class="material-icons"></span>
-                    <span class="material-icons"></span>
                 </div>
 
                 <div class="emailList__settingsMiddle">
-                    <span style="color: gray;" class="material-icons">list</span>
+                    <span style="color: gray;" class="material-icons">list</span> 
                     <div class="input-group" id="content">
                         <input id="search-input" type="search" placeholder="Search Data...">
                         <button id="search-button" type="button">Search</button>
@@ -140,28 +170,12 @@
                          
                       <ul id="search-results"></ul>
 
-                    <script>
-                            const searchInput = document.getElementById('search-input');        
-                            const searchButton = document.getElementById('search-button');
-                            const searchResults = document.getElementById('search-results');        
-                      
-                          searchButton.addEventListener('click', async () => {                              
-                                const query = searchInput.value;
-
-                                const response = await fetch(`/search?q=${query}`);
-                                const data = await response.json();
-
-                                searchResults.innerHTML = data.map(result => `
-                                    <li>Title: ${result.title} | Author: ${result.author}</li>
-                                `).join('');
-                                });
-                        </script>
                         </div>
 
                    <!--<button id="shareBtn" class="button">SHARE</button>--> 
 
                <div class="emailList__settingRight">
-                <span style="color: gray;" class="material-icons">notifications</span>
+                <span class="material-icons" id="archive-icon" onclick="archiveEmail()">archive</span>
                 <span style="color: gray;" class="material-icons">bookmark</span>  
                 <span style="color: gray;" class="material-icons">share</span>  
             </div>
@@ -205,9 +219,10 @@
                 <p class="emailRow__time">10pm</p>
             </td>
             </tr>
-
+            
             <tr>
                 <td><span style="color: gray;" class="material-icons" onclick="deleteRow()">delete</span></td>
+                <td><span style="color: gray;" class="material-icons">mark_chat_read</span></td>
             </tr>
           </tbody>
           </div>  
@@ -234,7 +249,7 @@
             <div class="emailRow__message" onclick="navigateToPage()">
                <td>
                 <h4>
-                    You got a new Subscriber
+                    You got a new mate
                     <span class="emailRow__description"> - on Your outlet readers</span>
                 </h4>
                </td> 
@@ -245,6 +260,7 @@
             </tr>
             <tr>
                 <td><span style="color: gray;" class="material-icons" onclick="deleteRow()">delete</span></td>
+                <td><span style="color: gray;" class="material-icons">mark_chat_read</span></td>
             </tr>
           </tbody>
         </div> 
@@ -273,7 +289,7 @@ function checkUncheck(main) {
     <script src="server.js"></script>
     <script src="script.js"></script>
     <script src="index.js"></script>
-    <script src="firebase.js"></script>
+    <script src="NodeMailer.js"></script>
 
 
 </body>

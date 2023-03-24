@@ -75,14 +75,44 @@ $(document).ready(function() {
   });
   
 
-  function getSubscriberCount() {
-    const channelName = document.getElementById("channelInput").value;
-    fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&forUsername=${channelName}&key=YOUR_API_KEY`)
-      .then(response => response.json())
-      .then(data => {
-        const subscriberCount = data.items[0].statistics.subscriberCount;
-        document.getElementById("subscriberCount").innerHTML = `Subscriber Count: ${subscriberCount}`;
-      })
-      .catch(error => console.error(error));
-  }
-  
+// Load the Gmail API client library
+gapi.load('client', initClient);
+
+function initClient() {
+  // Initialize the API client with your API key and discovery document
+  gapi.client.init({
+    apiKey: '449454008110-maiq16cegur89mnsj3s2m3rjcjh06bp6.apps.googleusercontent.com',
+    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+  }).then(() => {
+    // Get the search form element
+    const searchForm = document.getElementById('search-form');
+    
+    // Add a form submit event listener
+    searchForm.addEventListener('search', async (event) => {
+      event.preventDefault(); // prevent the form from reloading the page
+      
+      // Get the search query from the input field
+      const searchInput = document.getElementById('search-input');
+      const query = searchInput.value;
+      
+      // Call the Gmail API to search for emails
+      const response = await gapi.client.gmail.users.messages.list({
+        'userId': 'me',
+        'q': query
+      });
+      
+      // Parse the search results and display them
+      const searchResults = document.getElementById('search-results');
+      searchResults.innerHTML = response.result.messages.map(message => `
+        <div>
+          <strong>${message.id}</strong>
+          <br>
+          From: ${message.payload.headers.find(header => header.name === 'From').value}
+          <br>
+          Subject: ${message.payload.headers.find(header => header.name === 'Subject').value}
+        </div>
+      `).join('');
+    });
+  });
+}
+
