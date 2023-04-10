@@ -8,6 +8,16 @@ function toggleStar() {
    this.classList.toggle('selected');
 }
 
+function selectAllEmailRows() {
+  const selectAllCheckbox = document.getElementById('select-all-checkbox');
+  const emailCheckboxes = document.querySelectorAll('.emailRow__checkbox input[type="checkbox"]');
+  
+  for (let i = 0; i < emailCheckboxes.length; i++) {
+    emailCheckboxes[i].checked = selectAllCheckbox.checked;
+  }
+}
+
+
 //next page navivigation
 function navigateToPage() {
     const emailRows = document.querySelectorAll('.emailRow:not(.exclude)');
@@ -15,31 +25,33 @@ function navigateToPage() {
     emailRows.forEach(row => emailRowHTML += row.outerHTML);
     const nextPageURL = `Mail.html?emailRow=${encodeURIComponent(emailRowHTML)}`;
     window.location.href = nextPageURL;
+
+    // Get the email row element that was clicked
+  var emailRow = event.target.closest('.emailRow');
+
+  // Add the "emailRow--clicked" class to the clicked email row
+  emailRow.classList.add('emailRow--clicked');
   }
 
-//ARCHIVE
-  function archiveEmail() {
-   // Get the checkbox element in the current email row
-   const checkbox = document.querySelector('.emailRow__options input[type="checkbox"]');
- 
-   // Check if the checkbox is checked
-   if (checkbox.checked) {
-     // If checked, move the email to the archive folder
-     // You can replace this with your own implementation to archive the email
-     console.log("Archiving email...");
- 
-     // Hide the email row from the UI
-     const emailRow = document.getElementById('email_Row');
-     emailRow.style.display = 'none';
-   } else {
-     // If not checked, show an error message
-     alert("Please select the email(s) you want to archive.");
-   }
- }
- 
+ function toggleReadState(event) {
+  const emailRow = event.target.closest('.emailRow');
+  emailRow.classList.toggle('unread');
+  const markIcon = emailRow.querySelector('.mark_chat_unread');
+  markIcon.innerHTML = emailRow.classList.contains('unread') ? 'mark_chat_read' : 'mark_chat_unread';
+  const emailSubject = emailRow.querySelector('.emailRow__subject');
+  emailSubject.style.fontWeight = emailRow.classList.contains('unread') ? 'normal' : 'bold';
+}
+
+
+function toggleReadState(event) {
+  const emailRow = event.target.closest('.emailRow');
+  emailRow.classList.toggle('unread');
+  const markIcon = emailRow.querySelector('.mark_chat_unread');
+  markIcon.innerHTML = emailRow.classList.contains('unread') ? 'mark_chat_read' : 'mark_chat_unread';
+  const emailSubject = emailRow.querySelector('.emailRow__subject');
+  emailSubject.style.fontWeight = emailRow.classList.contains('unread') ? 'normal' : 'bold';
+}
 
 
 
-  
-  
 

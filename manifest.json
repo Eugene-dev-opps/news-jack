@@ -4,7 +4,8 @@
         "storage",
         "alarms",
         "bookmarks",
-        "tabs"
+        "tabs",
+        "archives"
     ],
     "version": "2.0.0",
     "description": "latest news",

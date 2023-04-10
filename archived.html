@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Font+Name">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    
+    <link rel="stylesheet" href="archive.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Archived</title>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">NJ</span>
+                    <span class="profession">News Letter</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+               
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="index.html">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class=' bx bx-folder-open icon' ></i>
+                            <span class="text nav-text">Bookmarks</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class=' bx bx-paper-plane icon' ></i>
+                            <span class="text nav-text">Subscriptions</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="archived.html">
+                              <i class='bx bx-archive icon' ></i>               
+                                  <span class="text nav-text">Archived</span>           
+                           </a>              
+                   </li>  
+                   
+                   <form id="label-form">
+                    <label for="label-input" style="font-weight: 600; color: dimgray; ">Create label:</label>
+                    <input type="text" id="label-input" name="label-input" class="input-css" required>
+                    <button type="submit">Create</button>
+                </form>
+
+                <div id="label-list"></div>
+
+                <h2>Conversations</h2>
+            
+                <div id="conversation-list" style="padding-bottom: 8px;"></div>
+
+                
+                 
+                <script>
+                    const labelForm = document.getElementById('label-form');
+                    const labelList = document.getElementById('label-list');
+                    const conversationList = document.getElementById('conversation-list');
+                    let labels = [];
+            
+                    function createLabel(name) {
+                        const label = {
+                            name: name,
+                            conversations: []
+                        };
+                        labels.push(label);
+                        updateLabelList();
+                        return label;
+                    }
+            
+                    function addConversation(label, conversation) {
+                        if (!label.conversations.includes(conversation)) {
+                            label.conversations.push(conversation);
+                            updateConversationList(label.conversations);
+                        }
+                    }
+            
+                    function removeConversation(label, conversation) {
+                        const index = label.conversations.indexOf(conversation);
+                        if (index !== -1) {
+                            label.conversations.splice(index, 1);
+                            updateConversationList(label.conversations);
+                        }
+                    }
+            
+                    function updateLabelList() {
+                        labelList.innerHTML = '';
+                        labels.forEach(label => {
+                            const element = document.createElement('div');
+                            element.classList.add('label');
+                            element.textContent = label.name;
+                            if (label.conversations.length > 0) {
+                            element.classList.add('active');
+                            }
+                            element.addEventListener('click', () => {
+                            updateConversationList(label);
+                            });
+                            labelList.appendChild(element);
+                        });
+                        }
+
+            
+                    function updateConversationList(label) {
+                        conversationList.innerHTML = '';
+                        if (label.conversations.length > 0) {
+                            label.conversations.forEach(conversation => {
+                            const element = document.createElement('div');
+                            element.classList.add('conversation');
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.checked = true;
+                            checkbox.addEventListener('click', () => {
+                                if (checkbox.checked) {
+                                addConversation(label, conversation);
+                                } else {
+                                removeConversation(label, conversation);
+                                }
+                            });
+                            element.appendChild(checkbox);
+                            element.innerHTML += '<h2>' + conversation.subject + '</h2>' + '<p>' + conversation.body + '</p>';
+                            conversationList.appendChild(element);
+                            });
+                        } else {
+                            const element = document.createElement('p');
+                            element.textContent = 'No conversations found.';
+                            conversationList.appendChild(element);
+                        }
+                        updateLabelList();
+                        }
+
+            
+                    labelForm.addEventListener('submit', event => {
+                        event.preventDefault();
+                        const name = labelForm.elements['label-input'].value;
+                        createLabel(name);
+                        labelForm.reset;
+                        });
+                        </script>
+            
+
+                    <li class="nav-link">
+                           <a href="#">
+                                 <i class='bx bx-cog icon' ></i>               
+                                     <span class="text nav-text">Setting</span>           
+                              </a>              
+                      </li>                                   
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                 <li class="search-box">
+                    
+                </li>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="home">
+        <!--Header start-->
+                    <div class="header">
+                        <div class="header__left">
+                            <span class="material-icons"></span>
+                            <span class="material-icons"></span>
+                    </div>
+
+                    <div class="header__middle">
+                        <img src="logo.png" height="50px" alt="">
+                        <h2>NewsJack</h2>
+                    </div>
+
+                    <div class="header__right">
+                        
+                </div>
+            </div>
+
+        
+        <style>
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+        </style>
+
+            
+        </div>
+
+    </div>
+        <!--Header ends-->
+
+
+    <div id="emailList">
+        <script>
+           function displayArchivedEmails() {
+  const archivedEmails = JSON.parse(localStorage.getItem('archivedEmails')) || [];
+  const emailList = document.getElementById('emailList');
+
+  archivedEmails.forEach(emailData => {
+                const emailRow = document.createElement('div');
+                emailRow.classList.add('emailRow');
+                emailRow.innerHTML = `
+                    <div class="emailRow__senderName">${emailData.senderName}</div>
+                    <div class="emailRow__sender">
+                        <div class="emailRow__subject">${emailData.subject}<span class="emailRow__snippet">${emailData.snippet}</span></div>
+                    </div>
+                    <div class="emailRow__date">
+                        <div class="emailRow__dateText">${emailData.date}</div>
+                        <div class="emailRow__timeText">${emailData.time}</div>
+                    </div>
+                    <div>
+                        <span style="color: gray;" class="material-icons" onclick="deleteArchivedEmail(this.closest('.emailRow'), '${emailData.date} ${emailData.time}')">delete</span>
+                    </div>
+                `;
+                emailList.appendChild(emailRow);
+            });
+        }
+
+        function deleteArchivedEmail(emailRow, dateTime) {
+            emailRow.remove();
+            const archivedEmails = JSON.parse(localStorage.getItem('archivedEmails')) || [];
+            const updatedArchivedEmails = archivedEmails.filter(emailData => `${emailData.date} ${emailData.time}` !== dateTime);
+            localStorage.setItem('archivedEmails', JSON.stringify(updatedArchivedEmails));
+        }
+
+        displayArchivedEmails();
+    </script>
+</section>
+<script src="script.js"></script>
+<script src="index.js"></script>
+</div>
+
+</body>
+</html>

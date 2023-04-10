@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>User Dashboard</title>
+    <link rel="stylesheet" href="channels.css">
+</head>
+<body>
+	<h1>Welcome to Your Dashboard</h1>
+	<p>Here are the channels you are currently subscribed to:</p>
+	<ul>
+		<li>Channel 1 <button onclick="unsubscribeChannel('channel1')">Unsubscribe</button></li>
+		<li>Channel 2 <button onclick="unsubscribeChannel('channel2')">Unsubscribe</button></li>
+		<li>Channel 3 <button onclick="unsubscribeChannel('channel3')">Unsubscribe</button></li>
+	</ul>
+	<h2>Subscribe to New Channels</h2>
+	<form onsubmit="return subscribeChannel()">
+		<label for="email">Enter your email address:</label>
+		<input type="email" id="email" name="email" required>
+		<input type="submit" value="Subscribe">
+	</form>
+	<script>
+		function unsubscribeChannel(channelName) {
+			// TODO: Remove the specified channel from the user's subscription list
+			alert(`You have successfully unsubscribed from ${channelName}`);
+		}
+
+		function subscribeChannel() {
+			// TODO: Add the new channel to the user's subscription list
+			alert('You have successfully subscribed to the new channel');
+			return false;
+		}
+	</script>
+</body>
+</html>

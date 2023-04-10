@@ -1,0 +1,41 @@
+.emailRow {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .emailRow:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .emailRow__senderName {
+    font-weight: 600;
+    margin-right: 10px;
+  }
+  
+  .emailRow__subject {
+    font-weight: 600;
+    margin-right: 10px;
+  }
+  
+  .emailRow__snippet {
+    color: #444;
+  }
+  
+  .emailRow__date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+    margin-right: 20px;
+  }
+  
+  .emailRow__dateText {
+    color: #888;
+  }
+  
+  .emailRow__timeText {
+    color: #aaa;
+  }
+  

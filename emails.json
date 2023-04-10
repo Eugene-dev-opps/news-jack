@@ -1,0 +1,25 @@
+[
+    {
+      "sender": "John Doe",
+      "subject": "New Features Added",
+      "snippet": "Check out the new MANDATES we just added to our app Check out the new MANDATES we just added to our app",
+      "date": "Mar 29",
+      "time": "12:34 PM"
+    },
+    {
+      "sender": "Jane Smith",
+      "subject": "Important Reminder",
+      "snippet": "Don't forget to submit your quarterly report by the end of the day",
+      "date": "Mar 30",
+      "time": "9:21 AM"
+    },
+    {
+      "sender": "Bob Johnson",
+      "subject": "Vacation Request",
+      "snippet": "I'd like to take the week of April 10th off for a family vacation",
+      "date": "Apr 1",
+      "time": "3:17 PM"
+    }
+  ]
+
+  

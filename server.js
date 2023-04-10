@@ -10,7 +10,7 @@ app.use(express.static('D:/NEWS ADV/public')); // serve static files from the pu
 const es = new Client({ node: 'http://localhost:9200' });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './NEWS ADV/public/index.html'));
+    res.sendFile(path.join(__dirname, './NEWS ADV/public/index.ejs'));
 });
 
 app.get('/index.html', async (req, res) => {

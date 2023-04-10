@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 exports.emailSender = functions.https.onRequest((req, res) => {
     const mailOptions = {
-        from: 'from@example.com', //Adding sender's email
+        from: 'motieugene@gmail.com.com', //Adding sender's email
         to: req.query.dest, //Getting recipient's email by query string
         subject: 'Email Sent via Firebase', //Email subject
         html: '<b>Sending emails with Firebase is easy!</b>' //Email content in HTML
@@ -29,3 +29,13 @@ exports.emailSender = functions.https.onRequest((req, res) => {
         return res.send('Email sent successfully');
     });
 });
+
+var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "094a7bab77b224",
+      pass: "120123778ea116"
+    }
+  });
+

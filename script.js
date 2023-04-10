@@ -25,94 +25,75 @@ modeSwitch.addEventListener("click" , () =>{
     }
 });
 
-
-//share Button
-//const shareBtn = document.getElementById('shareBtn')
-
-//shareBtn.addEventListener('click', event => {
-
-  // Check for Web Share api support
-  //if (navigator.share) {
-    // Browser supports native share api
-   // navigator.share({
-   //   text: 'Please read this great article: ',
-    //  url: 'https://www.google.com/'
-   // }).then(() => {
-   //   console.log('Thanks for sharing!');
-   // })
-   //   .catch((err) => console.error(err));
-  //} else {
-    // Fallback
- //   alert("The current browser does not support the share function. Please, manually share the link")
-//  }
-//)
-
-//searchTable
-const search = document.querySelector('.input-group input'),
-    email_Row = document.querySelectorAll('.emailRow');
-
-// 1. Searching for specific data of HTML table
-search.addEventListener('input', searchemailRow);
-
-function searchemailRow() {
-  email_Row.forEach((row, i) => {
-        let emailRow = row.textContent.toLowerCase(),
-            search_data = search.value.toLowerCase();
-
-        row.classList.toggle('hide', emailRow.indexOf(search_data) < 0);
-        row.style.setProperty('--delay', i / 25 + 's');
-    })
-
-    document.querySelectorAll('emailRow:not(.hide)').forEach((visible_row, i) => {
-        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
-    });
-}
-
-$(document).ready(function() {
-    $('.deleteButton').on('click', function() {
-      $(this).closest('.emailRow').remove();
-    });
-  });
+async function getEmails() {
+    const response = await fetch('emails.json');
+    const data = await response.json();
   
-
-// Load the Gmail API client library
-gapi.load('client', initClient);
-
-function initClient() {
-  // Initialize the API client with your API key and discovery document
-  gapi.client.init({
-    apiKey: '449454008110-maiq16cegur89mnsj3s2m3rjcjh06bp6.apps.googleusercontent.com',
-    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
-  }).then(() => {
-    // Get the search form element
-    const searchForm = document.getElementById('search-form');
-    
-    // Add a form submit event listener
-    searchForm.addEventListener('search', async (event) => {
-      event.preventDefault(); // prevent the form from reloading the page
-      
-      // Get the search query from the input field
-      const searchInput = document.getElementById('search-input');
-      const query = searchInput.value;
-      
-      // Call the Gmail API to search for emails
-      const response = await gapi.client.gmail.users.messages.list({
-        'userId': 'me',
-        'q': query
+    return data;
+  }
+  
+  getEmails().then(emails => {
+    console.log(emails);
+  
+    const emailContainer = document.querySelector('#emailContainer');
+    const searchInput = document.querySelector('#searchBar');
+  
+    searchInput.addEventListener('input', function(event) {
+      const query = event.target.value.toLowerCase();
+      const filteredEmails = emails.filter(email => {
+        const senderName = email.senderName.toLowerCase();
+        const subject = email.subject.toLowerCase();
+        const snippet = email.snippet.toLowerCase();
+        
+        return senderName.includes(query) || subject.includes(query) || snippet.includes(query);
       });
-      
-      // Parse the search results and display them
-      const searchResults = document.getElementById('search-results');
-      searchResults.innerHTML = response.result.messages.map(message => `
-        <div>
-          <strong>${message.id}</strong>
-          <br>
-          From: ${message.payload.headers.find(header => header.name === 'From').value}
-          <br>
-          Subject: ${message.payload.headers.find(header => header.name === 'Subject').value}
-        </div>
-      `).join('');
+  
+      if (filteredEmails.length === 0) {
+        emailContainer.innerHTML = '<p>No messages matched your search.</p>';
+      } else {
+        emailContainer.innerHTML = filteredEmails.map(email => `
+          <div class="emailRow" onclick="toggleFontWeight(this)">
+            <div class="emailRow__checkbox">
+              <input type="checkbox" name="email"> 
+            </div>
+            <div class="emailRow__senderName">${email.senderName}</div>
+            <div class="emailRow__sender" onclick="navigateToPage()">
+              <div class="emailRow__subject">${email.subject}
+                <span class="emailRow__snippet">${email.snippet}</span>
+              </div>
+            </div>
+            <div>
+              <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+              <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+              <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+            </div>
+            <div class="emailRow__date">
+              <div class="emailRow__dateText">${email.date}</div>
+              <div class="emailRow__timeText">${email.time}</div>
+            </div>
+          </div>
+        `).join('');
+      }
     });
   });
-}
+
+  
+  // Retrieve the existing emails from local storage
+let emails = JSON.parse(localStorage.getItem('emails')) || [];
+
+// Create a new email object
+let newEmail = {
+  sender: 'John Doe',
+  subject: 'New Email Subject',
+  snippet: 'New email snippet',
+  date: 'Apr 9',
+  time: '2:30 PM'
+};
+
+// Add the new email to the array
+emails.push(newEmail);
+
+// Store the updated emails array in local storage
+localStorage.setItem('emails', JSON.stringify(emails));
+
 

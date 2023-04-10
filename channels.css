@@ -1,0 +1,130 @@
+/* Overall page styles */
+
+body {
+    background-color: #f1f1f1;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  
+  /* Header styles */
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .header img {
+    height: 40px;
+  }
+  
+  .header input[type="search"] {
+    border: none;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 16px;
+    width: 300px;
+    margin-left: 20px;
+  }
+  
+  .header button {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #666;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  /* Email list styles */
+  
+  .email-list {
+    margin-bottom: 20px;
+  }
+  
+  .email-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .email-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .email-item img {
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .email-item h3 {
+    font-size: 18px;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .email-item p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+  }
+  
+  /* Email detail styles */
+  
+  .email-detail {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .email-detail h1 {
+    font-size: 28px;
+    margin: 0 0 20px 0;
+  }
+  
+  .email-detail img {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .email-detail p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .email-detail a {
+    color: #f00;
+  }
+  
+  /* Footer styles */
+  
+  .footer {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  .footer a {
+    color: #f00;
+  }
+  

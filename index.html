@@ -11,8 +11,72 @@
     href="https://fonts.googleapis.com/css?family=Font+Name">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-    <script src="filter.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>NEWS JACK</title> 
+
+
+    
+    <!-- Import Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
+<script src="https://www.googleapis.com/customsearch/v1?key=YOUR-KEY&cx=017576662512468239146:omuauf_lfve&q=cars&callback=hndlr"></script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    #label-form {
+        margin-bottom: 20px;
+        padding-top: 20px;
+        padding-bottom: 15px;
+    }
+
+    .label {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-right: 10px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .label.active {
+        background-color: #5df442;
+        color: #fff;
+    }
+
+    .input-css{
+        height: 100%;
+        width: 100%;
+        outline: none;
+        border: none;
+        background-color: var(--primary-color-light);
+        color: var(--text-color);
+        border-radius: 6px;
+        font-size: 17px;
+        font-weight: 500;
+        transition: var(--tran-05);
+        padding-bottom: 5px;
+        padding-top: 5px;
+        padding-left: 5px;
+    }
+
+    .conversation {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+
+    .conversation h2 {
+        margin: 0 0 10px 0;
+    }
+</style>
+
 
     <style>
 		.filter-icon {
@@ -22,31 +86,8 @@
 		}
 	</style>
 
-    <!-- Import the Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyAElTtiYcC_BlSBjZAfwuaNm35PMz8fmVM",
-          authDomain: "newsjack.firebaseapp.com",
-          projectId: "newsjack",
-          storageBucket: "newsjack.appspot.com",
-          messagingSenderId: "1039042103940",
-          appId: "1:1039042103940:web:b1f479b1357d54050b50d1",
-          measurementId: "G-30T21C81RR"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
-        const admin = require("firebase-admin");
-            admin.initializeApp();
-    </script>
-
 </head>
-<body>
+<body class="body">
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -66,10 +107,7 @@
         <div class="menu-bar">
             <div class="menu">
 
-                <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="search" placeholder="Search...">
-                </li>
+               
 
                 <ul class="menu-links">
                     <li class="nav-link">
@@ -80,25 +118,125 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="">
-                            <i class=' bx bx-folder-open icon' ></i>
-                            <span class="text nav-text">Bookmarks</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="">
-                            <i class=' bx bx-paper-plane icon' ></i>
-                            <span class="text nav-text">Subscriptions</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
                         <a href="#">
-                            <i class='bx bx-download  icon' ></i>
-                            <span class="text nav-text">Downloads</span>
+                            <i class=' bx bx-folder-open icon' ></i>
+                            <span class="text nav-text">Notes</span>
                         </a>
                     </li>
+
+                    <li class="nav-link">
+                        <a href="Channels.html">
+                            <i class=' bx bx-paper-plane icon' ></i>
+                            <span class="text nav-text">Channels</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="archived.html">
+                              <i class='bx bx-archive icon' ></i>               
+                                  <span class="text nav-text">Archived</span>           
+                           </a>              
+                   </li>  
+                   
+                   <form id="label-form">
+                    <label for="label-input" style="font-weight: 600; color: dimgray; ">Create label:</label>
+                    <input type="text" id="label-input" name="label-input" class="input-css" required>
+                    <button type="submit">Create</button>
+                </form>
+
+                <div id="label-list"></div>
+
+                <h2>Conversations</h2>
+            
+                <div id="conversation-list" style="padding-bottom: 8px;"></div>
+
+                
+                 
+                <script>
+                    const labelForm = document.getElementById('label-form');
+                    const labelList = document.getElementById('label-list');
+                    const conversationList = document.getElementById('conversation-list');
+                    let labels = [];
+            
+                    function createLabel(name) {
+                        const label = {
+                            name: name,
+                            conversations: []
+                        };
+                        labels.push(label);
+                        updateLabelList();
+                        return label;
+                    }
+            
+                    function addConversation(label, conversation) {
+                        if (!label.conversations.includes(conversation)) {
+                            label.conversations.push(conversation);
+                            updateConversationList(label.conversations);
+                        }
+                    }
+            
+                    function removeConversation(label, conversation) {
+                        const index = label.conversations.indexOf(conversation);
+                        if (index !== -1) {
+                            label.conversations.splice(index, 1);
+                            updateConversationList(label.conversations);
+                        }
+                    }
+            
+                    function updateLabelList() {
+                        labelList.innerHTML = '';
+                        labels.forEach(label => {
+                            const element = document.createElement('div');
+                            element.classList.add('label');
+                            element.textContent = label.name;
+                            if (label.conversations.length > 0) {
+                            element.classList.add('active');
+                            }
+                            element.addEventListener('click', () => {
+                            updateConversationList(label);
+                            });
+                            labelList.appendChild(element);
+                        });
+                        }
+
+            
+                    function updateConversationList(label) {
+                        conversationList.innerHTML = '';
+                        if (label.conversations.length > 0) {
+                            label.conversations.forEach(conversation => {
+                            const element = document.createElement('div');
+                            element.classList.add('conversation');
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.checked = true;
+                            checkbox.addEventListener('click', () => {
+                                if (checkbox.checked) {
+                                addConversation(label, conversation);
+                                } else {
+                                removeConversation(label, conversation);
+                                }
+                            });
+                            element.appendChild(checkbox);
+                            element.innerHTML += '<h2>' + conversation.subject + '</h2>' + '<p>' + conversation.body + '</p>';
+                            conversationList.appendChild(element);
+                            });
+                        } else {
+                            const element = document.createElement('p');
+                            element.textContent = 'No conversations found.';
+                            conversationList.appendChild(element);
+                        }
+                        updateLabelList();
+                        }
+
+            
+                    labelForm.addEventListener('submit', event => {
+                        event.preventDefault();
+                        const name = labelForm.elements['label-input'].value;
+                        createLabel(name);
+                        labelForm.reset;
+                        });
+                        </script>
+            
 
                     <li class="nav-link">
                            <a href="#">
@@ -116,7 +254,7 @@
                         <span class="text nav-text">Logout</span>
                     </a>
                 </li>
-
+                
                 <li class="mode">
                     <div class="sun-moon">
                         <i class='bx bx-moon icon moon'></i>
@@ -127,26 +265,90 @@
                         <span class="switch"></span>
                     </div>
                 </li>
-                
+                 <li class="search-box">
+                    
+                </li>
             </div>
         </div>
-
     </nav>
 
     <section class="home">
         <!--Header start-->
-        <div class="header">
-            <div class="header__left">
-                <span class="material-icons"></span>
-                <span class="material-icons"></span>
-        </div>
+                    <div class="header">
+                        <div class="header__left">
+                            <span class="material-icons"></span>
+                            <span class="material-icons"></span>
+                    </div>
 
-        <div class="header__middle">
-            <img src="logo.png" height="50px" alt="">
-            <h2>NewsJack</h2>
-        </div>
+                    <div class="header__middle">
+                        <img src="logo.png" height="50px" alt="">
+                        <h2>NewsJack</h2>
+                    </div>
 
-        <div class="header__right">
+                    <div class="header__right">
+                    <div class="notification">
+                    <span style="color: rgb(9, 9, 9);" class="material-icons">notifications_active</span>
+                    <span class="badge">0</span> 
+                    <div class="dropdown-content">
+                        <!-- Notification items will be dynamically added here -->
+                </div>
+            </div>
+
+        <script>
+        // Set up a WebSocket connection with the server to receive new emailRows
+        const socket = new WebSocket('wss://your-server.com/notification');
+
+        // Listen for incoming messages from the server
+        socket.addEventListener('message', function (event) {
+            // Parse the message data as a JSON object
+            const data = JSON.parse(event.data);
+
+            // Update the notification badge to show the number of new emailRows
+            const badge = document.querySelector('.badge');
+            badge.textContent = data.emailRows.length;
+
+            // Clear the existing notification items from the dropdown
+            const dropdown = document.querySelector('.dropdown-content');
+            dropdown.innerHTML = '';
+
+            // Add each new emailRow as a new notification item in the dropdown
+            data.emailRows.forEach(function (emailRow) {
+            const item = document.createElement('div');
+            item.classList.add('notification-item');
+            item.textContent = emailRow.subject;
+            dropdown.appendChild(item);
+            });
+        });
+
+        // Add a click event listener to the notification icon
+        const notificationIcon = document.querySelector('.notification .material-icons');
+        notificationIcon.addEventListener('click', function () {
+            // Toggle the visibility of the dropdown content
+            const dropdown = document.querySelector('.dropdown-content');
+            dropdown.classList.toggle('show');
+        });
+
+        // Close the dropdown content when the user clicks outside of it
+        window.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown-content');
+            if (!event.target.matches('.notification .material-icons') && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+            }
+        });
+        </script>
+
+        <style>
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+        </style>
+
             
         </div>
 
@@ -157,116 +359,246 @@
         <div class="emailList">
             <div class="emailList__settings">
                 <div class="emailList__setingsLeft">
-                    <input type="checkbox" onclick="checkUncheck(this)" /><b>Select All</b>
-                    <span class="material-icons"></span>
+                    <input type="checkbox" id="select-all-checkbox" onclick="selectAllEmailRows()">
+                        <b>Select All</b>
                 </div>
 
+                
                 <div class="emailList__settingsMiddle">
-                    <span style="color: gray;" class="material-icons">list</span> 
-                    <div class="input-group" id="content">
-                        <input id="search-input" type="search" placeholder="Search Data...">
-                        <button id="search-button" type="button">Search</button>
-                      </div>
-                         
-                      <ul id="search-results"></ul>
-
+                    <div class="dropdown">
+                        <button class="dropbtn"><span style="color: gray;" class="material-icons" id="listIcon">list</span></button>
+                        <div class="dropdown-content" id="filterIcons">
+                            <span style="color: gray;" class="material-icons filterIcon active" data-filter="all">inbox</span>
+                            <span style="color: gray;" class="material-icons filterIcon" data-filter="unread">markunread</span>
+                            <span style="color: gray;" class="material-icons filterIcon" data-filter="starred">star</span>
+                            <span style="color: gray;" class="material-icons filterIcon" data-filter="sent">send</span>
+                            <span style="color: gray;" class="material-icons filterIcon" data-filter="drafts">drafts</span>
                         </div>
+                    </div>
+                    <div class="input-group" id="content">
+                        <input id="searchBar" type="text" placeholder="Search Data...">
+                        <button id="search" type="button"><span class="material-icons" id="search_icon">search</span></button>
+                        <div id="autocomplete-results"></div>
+                    </div>
+                </div>
+                
+                
+                <script>
+                const listIcon = document.querySelector('.dropbtn');
+                const filterIconsContainer = document.querySelector('.dropdown-content');
 
-                   <!--<button id="shareBtn" class="button">SHARE</button>--> 
+                listIcon.addEventListener('click', function() {
+                    filterIconsContainer.classList.toggle('show');
+                });
 
-               <div class="emailList__settingRight">
-                <span class="material-icons" id="archive-icon" onclick="archiveEmail()">archive</span>
-                <span style="color: gray;" class="material-icons">bookmark</span>  
-                <span style="color: gray;" class="material-icons">share</span>  
+                window.addEventListener('click', function(event) {
+                    if (!event.target.matches('.dropbtn')) {
+                        const dropdowns = document.getElementsByClassName('dropdown-content');
+                        for (let i = 0; i < dropdowns.length; i++) {
+                            const dropdown = dropdowns[i];
+                            if (dropdown.classList.contains('show')) {
+                                dropdown.classList.remove('show');
+                            }
+                        }
+                    }
+                });
+
+                </script>
+                
+                    
+                        
+                        <!--<button id="shareBtn" class="button">SHARE</button>--> 
+
+                    <div class="emailList__settingRight">
+                        <span style="color: gray;" class="material-icons">share</span>  
+                    </div>
+                </div>
+                
+                <script>
+                    function deleteRow(row) {
+                        var result = confirm("Are you sure to delete?");
+                        if(result){
+                            // Remove the email row from the DOM
+                            row.parentNode.removeChild(row);
+                        }
+                        }
+
+                       
+
+
+                function searchEmails() {
+                    const searchQuery = document.getElementById("searchBar").value.toLowerCase();
+                    const emailRows = document.querySelectorAll(".emailRow");
+
+                    emailRows.forEach(row => {
+                        const senderName = row.querySelector(".emailRow__senderName").textContent.toLowerCase();
+                        const subject = row.querySelector(".emailRow__subject").textContent.toLowerCase();
+                        const snippet = row.querySelector(".emailRow__snippet").textContent.toLowerCase();
+
+                        if (senderName.includes(searchQuery) || subject.includes(searchQuery) || snippet.includes(searchQuery)) {
+                        row.style.display = "flex";
+                        } else {
+                        row.style.display = "none";
+                        }
+                    });
+                    }
+
+                    document.getElementById("search").addEventListener("click", searchEmails);
+                    document.getElementById("searchBar").addEventListener("keyup", searchEmails);
+
+  </script>
+
+                    <script>
+                             //archives
+                             function archiveRow(emailRow) {
+                        // Get the email data from the email row
+                        const emailData = {
+                            senderName: emailRow.querySelector('.emailRow__senderName').textContent,
+                            subject: emailRow.querySelector('.emailRow__subject').textContent,
+                            snippet: emailRow.querySelector('.emailRow__snippet').textContent,
+                            date: emailRow.querySelector('.emailRow__dateText').textContent,
+                            time: emailRow.querySelector('.emailRow__timeText').textContent,
+                        };
+
+                        // Get the list of archived emails from local storage
+                        const archivedEmails = JSON.parse(localStorage.getItem('archivedEmails')) || [];
+
+                        // Add the email data to the archived emails array
+                        archivedEmails.push(emailData);
+
+                        // Store the updated archived emails array in local storage
+                        localStorage.setItem('archivedEmails', JSON.stringify(archivedEmails));
+
+                        // Remove the email row from the email list
+                        emailRow.remove();
+                        }
+
+
+                        // define functions and storeEmails() function here
+                        function storeEmails() {
+                    const emailRows = document.querySelectorAll('.emailRow');
+                    const emails = [];
+
+                    emailRows.forEach(row => {
+                        const email = {
+                        senderName: row.querySelector('.emailRow__senderName').textContent,
+                        subject: row.querySelector('.emailRow__subject').textContent,
+                        snippet: row.querySelector('.emailRow__snippet').textContent,
+                        date: row.querySelector('.emailRow__dateText').textContent,
+                        time: row.querySelector('.emailRow__timeText').textContent,
+                        read: row.classList.contains('emailRow--read'),
+                        archived: row.classList.contains('emailRow--archived'),
+                        incoming: row.classList.contains('emailRow--incoming')
+                        };
+                        emails.push(email);
+                    });
+
+                    localStorage.setItem('emails', JSON.stringify(emails));
+                    }
+
+
+                        displayEmails(); // call this at the bottom to display the stored emails
+                    </script>
+
+    <!-- Email row starts -->
+    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+        <div class="emailRow__checkbox">
+            <input type="checkbox" name="email"> 
+        </div>
+        <div class="emailRow__senderName">John Doe</div>
+        <div class="emailRow__sender" onclick="navigateToPage()">
+            <div class="emailRow__subject">New Features Added
+                <span class="emailRow__snippet">-Check out the new MANDATES we just added to our app Check out the new MANDATES we just added to our app</span>
             </div>
         </div>
+        <div>
+            <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+            <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+            <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+        </div>
+        <div class="emailRow__date">
+            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__timeText">12:34 PM</div>
+        </div>
+    </div>
+    <!-- Email row ends -->
 
-        <script>
-            function deleteRow() {
-              // Find the parent element (the <div> with id="email_Row")
-              var emailRow = document.getElementById("email_Row");
-              // Remove the email row from the DOM
-              emailRow.parentNode.removeChild(emailRow);
-            }
-            </script>
+     <!-- Email row starts -->
+     <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+        <div class="emailRow__checkbox">
+            <input type="checkbox" name="email"> 
+        </div>
+        <div class="emailRow__senderName">Malik Doe</div>
+        <div class="emailRow__sender" onclick="navigateToPage()">
+            <div class="emailRow__subject">New Features Added
+                <span class="emailRow__snippet">-Check out the new MANDATES we just added to our app Check out the new MANDATES we just added to our app</span>
+            </div>
+        </div>
+        <div>
+            <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+            <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+            <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+        </div>
+        <div class="emailRow__date">
+            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__timeText">12:34 PM</div>
+        </div>
+    </div>
+    <!-- Email row ends -->
+
+
+    <!-- Email row starts -->
+    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)" data-conversation="conversation_1">
+        <div class="emailRow__checkbox">
+            <input type="checkbox" name="email">
+        </div>
+        <div class="emailRow__senderName">Leivy Doe</div>
+        <div class="emailRow__sender" onclick="navigateToPage()">
+            <div class="emailRow__subject">New Features Added
+                <span class="emailRow__snippet">-Check out the new JOBS we just added to our app</span>
+            </div>
+        </div>
+        <div>
+            <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+            <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+            <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+        </div>
+        <div class="emailRow__date">
+            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__timeText">12:34 PM</div>
+        </div>
+    </div>
+    <!-- Email row ends -->
 
         <!-- Email row starts -->
-        <div id="email_Row"  class="emailRow" >
-          <tbody>
-            <tr>
-                <td>
-                  <div class="emailRow__options">
-                <input type="checkbox" name="lang">
-                <div class="item">
-                     <!--<span class="star">&#9733;</span>-->
-                 </div>
-                <span class="material-icons">label_important</span>
+        <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+            <div class="emailRow__checkbox">
+                <input type="checkbox" name="email">
             </div>
-            <h3 class="emailRow__title" onclick="navigateToPage()">NewsJack</h3>  
-                </td>
-            </tr>
-
-            <tr>
-            <div class="emailRow__message" onclick="navigateToPage()">
-               <td>
-                <h4>
-                    You got a new Subscriber
-                    <span class="emailRow__description"> - on Your outlet readers</span>
-                </h4>
-               </td> 
-            </div >
-            <td>
-                <p class="emailRow__time">10pm</p>
-            </td>
-            </tr>
-            
-            <tr>
-                <td><span style="color: gray;" class="material-icons" onclick="deleteRow()">delete</span></td>
-                <td><span style="color: gray;" class="material-icons">mark_chat_read</span></td>
-            </tr>
-          </tbody>
-          </div>  
+            <div class="emailRow__senderName">Lee Doe</div>
+            <div class="emailRow__sender" onclick="navigateToPage()">
+                <div class="emailRow__subject">New Features Added
+                    <span class="emailRow__snippet">
+                        Hi there,
+                    Thank you for subscribing to our channel. We are excited to announce that we have added some new features to our app. Check them out now!
+                    Best regards,
+                    The Channel Team
+                    </span>
+                </div>
+            </div>
+            <div>
+                <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+                <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+                <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+            </div>
+            <div class="emailRow__date">
+                <div class="emailRow__dateText">Mar 29</div>
+                <div class="emailRow__timeText">12:34 PM</div>
+            </div>
+        </div>
         <!-- Email row ends -->
 
-
-        <!-- Email row starts -->
-        <div id="email_Row"  class="emailRow" >
-          <tbody>
-            <tr>
-                <td>
-                  <div class="emailRow__options">
-                <input type="checkbox" name="lang">
-                <div class="item">
-                     <!--<span class="star">&#9733;</span>-->
-                 </div>
-                <span class="material-icons">label_important</span>
-            </div>
-            <h3 class="emailRow__title" onclick="navigateToPage()">NewsJack</h3>  
-                </td>
-            </tr>
-
-            <tr>
-            <div class="emailRow__message" onclick="navigateToPage()">
-               <td>
-                <h4>
-                    You got a new mate
-                    <span class="emailRow__description"> - on Your outlet readers</span>
-                </h4>
-               </td> 
-            </div >
-            <td>
-                <p class="emailRow__time">10pm</p>
-            </td>
-            </tr>
-            <tr>
-                <td><span style="color: gray;" class="material-icons" onclick="deleteRow()">delete</span></td>
-                <td><span style="color: gray;" class="material-icons">mark_chat_read</span></td>
-            </tr>
-          </tbody>
-        </div> 
-        <!-- Email row ends -->
-
-    </section>
+    </section> 
 
 <script>
     //checkBoxes function
@@ -277,20 +609,12 @@ function checkUncheck(main) {
     }
 }
 </script>
-
-    <!-- Import Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
-<script src="https://www.googleapis.com/customsearch/v1?key=YOUR-KEY&cx=017576662512468239146:omuauf_lfve&q=cars&callback=hndlr"></script>
-
+  
     <script src="SendMail.js"></script>
     <script src="server.js"></script>
     <script src="script.js"></script>
     <script src="index.js"></script>
     <script src="NodeMailer.js"></script>
-
-
+    <script src="searchbar.js"></script>
 </body>
 </html>

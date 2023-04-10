@@ -16,93 +16,116 @@
   </head>
   <body>
     <nav class="sidebar close">
-      <header>
-          <div class="image-text">
-              <span class="image">
-                  <img src="logo.png" alt="">
-              </span>
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo.png" alt="">
+                </span>
 
-              <div class="text logo-text">
-                  <span class="name">NJ</span>
-                  <span class="profession">News Letter</span>
-              </div>
-          </div>
+                <div class="text logo-text">
+                    <span class="name">NJ</span>
+                    <span class="profession">News Letter</span>
+                </div>
+            </div>
 
-          <i class='bx bx-chevron-right toggle'></i>
-      </header>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
 
-      <div class="menu-bar">
-          <div class="menu">
+        <div class="menu-bar">
+            <div class="menu">
 
-              <ul class="menu-links">
-
-                
                 <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="search" placeholder="Search...">
+                    
                 </li>
 
-                  <li class="nav-link">
-                      <a href="index.html">
-                          <i class='bx bx-home-alt icon' ></i>
-                          <span class="text nav-text">Dashboard</span>
-                      </a>
-                  </li>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="index.html">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
 
-                  <li class="nav-link">
-                      <a href="#">
-                          <i class=' bx bx-folder-open icon' ></i>
-                          <span class="text nav-text">My Notes</span>
-                      </a>
-                  </li>  
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class=' bx bx-folder-open icon' ></i>
+                            <span class="text nav-text">Bookmarks</span>
+                        </a>
+                    </li>
 
-                  <li class="nav-link">
-                      <a href="#">
-                          <i class=' bx bx-paper-plane icon' ></i>
-                          <span class="text nav-text">Subscriptions</span>
-                      </a>
-                  </li>
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class=' bx bx-paper-plane icon' ></i>
+                            <span class="text nav-text">Subscriptions</span>
+                        </a>
+                    </li>
 
-                  <li class="nav-link">
-                      <a href="#">
-                          <i class='bx bx-download  icon' ></i>
-                          <span class="text nav-text">Downloads</span>
-                      </a>
-                  </li>
+                    <li class="nav-link">
+                        <a href="Archive.html">
+                              <i class='bx bx-archive icon' ></i>               
+                                  <span class="text nav-text">Archived</span>           
+                           </a>              
+                   </li>  
 
-                  <li class="nav-link">
-                         <a href="#">
-                               <i class='bx bx-cog icon' ></i>               
-                                   <span class="text nav-text">Setting</span>           
-                            </a>              
-                    </li>                                   
-              </ul>
-          </div>
+                   <script>
+                    function createLabel() {
+                      var labelName = prompt("Enter the name of the new label:");
+                      var request = gapi.client.gmail.users.labels.create({
+                        'userId': 'me',
+                        'resource': {
+                          'name': labelName
+                        }
+                      });
+                      request.execute(function(label) {
+                        console.log('Label created: ' + label.name);
+                      });
+                    }
+                    </script>
+                    <script>
+                        document.getElementById('create-label-button').addEventListener('click', createLabel);
+                        </script>
 
-          <div class="bottom-content">
-              <li class="">
-                  <a href="#">
-                      <i class='bx bx-log-out icon' ></i>
-                      <span class="text nav-text">Logout</span>
-                  </a>
-              </li>
+                    <li class="nav-link">
+                        <a href="#">
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            <span class="text nav-text">Label</span> 
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                           <span id="create-label-button" class="material-icons" style="color: gray;">add</span> 
+                        </a>
+                    </li>
 
-              <li class="mode">
-                  <div class="sun-moon">
-                      <i class='bx bx-moon icon moon'></i>
-                      <i class='bx bx-sun icon sun'></i>
-                  </div>
-                  <span class="mode-text text">Dark mode</span>
+                    <li class="nav-link">
+                           <a href="#">
+                                 <i class='bx bx-cog icon' ></i>               
+                                     <span class="text nav-text">Setting</span>           
+                              </a>              
+                      </li>                                   
+                </ul>
+            </div>
 
-                  <div class="toggle-switch">
-                      <span class="switch"></span>
-                  </div>
-              </li>
-              
-          </div>
-      </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
 
-  </nav>
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
 
   <section class="home">
       <!--Header start-->
@@ -132,7 +155,11 @@
           </div>
 
           <div class="main__toolsMiddle">
-
+            <td>
+                <a href="/path/to/download/script.php?file=email_file" download>
+                  <span style="color: gray;" class="material-icons">cloud_download</span>
+                </a>
+              </td>
           </div>
 
           <div class="main__toolsRight">
