@@ -1,0 +1,9 @@
+.nav-notes {
+    background-color: rgb(249, 143, 90);
+    align-content: center;
+    text-align: center;
+}
+
+.nav-notes p {
+    color: black;
+}

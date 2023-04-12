@@ -292,7 +292,7 @@ body.dark .home .text{
 }
 
 .header {
-    background-color: burlywood;
+    background-color: rgb(150, 216, 223);
     display: flex;
     align-items: center;
     padding-top: 10px;
@@ -333,26 +333,6 @@ body.dark .home .text{
     border-radius: var(--card-border-radius);
     overflow: hidden;
   }
-
-.button {
-    background-color: #080133;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    box-shadow: 10px 10px 14px 1px rgb(0 0 0 / 20%);
-    padding: 0.2em 1em;
-    font-size: 1.5em;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-}
-
-.star {
-    color: grey;
-    cursor: pointer;
- }
- .star.selected {
-    color: gold;
- }
 
  .material-icons {
     font-family: 'Material Icons';
@@ -749,3 +729,14 @@ body.dark .home .text{
     background-color: #f2f2f2;
   }
   
+  .emailGroup {
+    margin-bottom: 20px;
+}
+
+.emailGroup__date {
+    font-size: 14px;
+    font-weight: bold;
+    color: #707070;
+    margin-bottom: 10px;
+}
+

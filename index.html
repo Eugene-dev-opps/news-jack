@@ -118,7 +118,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="Notes.html">
                             <i class=' bx bx-folder-open icon' ></i>
                             <span class="text nav-text">Notes</span>
                         </a>
@@ -239,7 +239,7 @@
             
 
                     <li class="nav-link">
-                           <a href="#">
+                           <a href="setttings.html">
                                  <i class='bx bx-cog icon' ></i>               
                                      <span class="text nav-text">Setting</span>           
                               </a>              
@@ -365,16 +365,6 @@
 
                 
                 <div class="emailList__settingsMiddle">
-                    <div class="dropdown">
-                        <button class="dropbtn"><span style="color: gray;" class="material-icons" id="listIcon">list</span></button>
-                        <div class="dropdown-content" id="filterIcons">
-                            <span style="color: gray;" class="material-icons filterIcon active" data-filter="all">inbox</span>
-                            <span style="color: gray;" class="material-icons filterIcon" data-filter="unread">markunread</span>
-                            <span style="color: gray;" class="material-icons filterIcon" data-filter="starred">star</span>
-                            <span style="color: gray;" class="material-icons filterIcon" data-filter="sent">send</span>
-                            <span style="color: gray;" class="material-icons filterIcon" data-filter="drafts">drafts</span>
-                        </div>
-                    </div>
                     <div class="input-group" id="content">
                         <input id="searchBar" type="text" placeholder="Search Data...">
                         <button id="search" type="button"><span class="material-icons" id="search_icon">search</span></button>
@@ -410,8 +400,30 @@
                         <!--<button id="shareBtn" class="button">SHARE</button>--> 
 
                     <div class="emailList__settingRight">
-                        <span style="color: gray;" class="material-icons">share</span>  
+                        <button onclick="shareSelectedEmails()" style="background-color: #dc4808;
+                        color: #fff;
+                        border: none;
+                        border-radius: 50px;
+                        box-shadow: 10px 10px 14px 1px rgb(0 0 0 / 20%);
+                        padding: 0.2em 1em;
+                        cursor: pointer;" >
+                            <span class="material-icons">share</span>  
+                          </button>  
                     </div>
+                    <script>
+                        function shareSelectedEmails() {
+                          const selectedEmails = document.querySelectorAll('.emailRow__checkbox input:checked');
+                          let body = '';
+                          selectedEmails.forEach(email => {
+                            const senderName = email.closest('.emailRow').querySelector('.emailRow__senderName').textContent;
+                            const subject = email.closest('.emailRow').querySelector('.emailRow__subject').textContent;
+                            const snippet = email.closest('.emailRow').querySelector('.emailRow__snippet').textContent;
+                            body += `Sender: ${senderName}%0D%0ASubject: ${subject}%0D%0ABody: ${snippet}%0D%0A%0D%0A`;
+                          });
+                          const shareUrl = `mailto:?body=${body}`;
+                          window.location.href = shareUrl; // open the default email client with the email content populated
+                        }
+                        </script>
                 </div>
                 
                 <script>
@@ -500,6 +512,11 @@
                         displayEmails(); // call this at the bottom to display the stored emails
                     </script>
 
+
+                    <!-- Email group starts -->
+<div class="emailGroup">
+    <div class="emailGroup__date">Mar 29</div>
+
     <!-- Email row starts -->
     <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
         <div class="emailRow__checkbox">
@@ -523,6 +540,56 @@
     </div>
     <!-- Email row ends -->
 
+    <!-- Email row starts -->
+    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+        <div class="emailRow__checkbox">
+            <input type="checkbox" name="email"> 
+        </div>
+        <div class="emailRow__senderName">Jane Doe</div>
+        <div class="emailRow__sender" onclick="navigateToPage()">
+            <div class="emailRow__subject">Meeting Reminder
+                <span class="emailRow__snippet">-Don't forget our meeting tomorrow at 10 AM</span>
+            </div>
+        </div>
+        <div>
+            <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+            <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+            <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+        </div>
+        <div class="emailRow__date">
+            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__timeText">12:34 PM</div>
+        </div>
+    </div>
+    <!-- Email row ends -->
+</div>
+<!-- Email group ends -->
+
+<div class="emailGroup">
+    <div class="emailGroup__date">Feb 29</div>
+    <!-- Email row starts -->
+    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+        <div class="emailRow__checkbox">
+            <input type="checkbox" name="email"> 
+        </div>
+        <div class="emailRow__senderName">John Doe</div>
+        <div class="emailRow__sender" onclick="navigateToPage()">
+            <div class="emailRow__subject">New Features Added
+                <span class="emailRow__snippet">-Check out the new MANDATES we just added to our app Check out the new MANDATES we just added to our app</span>
+            </div>
+        </div>
+        <div>
+            <span style="color: gray;" class="material-icons mark_chat_unread" onclick="toggleReadState(event)">mark_chat_unread</span>
+            <span style="color: gray;" class="material-icons" onclick="deleteRow(this.closest('.emailRow'))">delete</span>
+            <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
+        </div>
+        <div class="emailRow__date">
+            <div class="emailRow__dateText">Feb 29</div>
+            <div class="emailRow__timeText">12:34 PM</div>
+        </div>
+    </div>
+    <!-- Email row ends -->
+
      <!-- Email row starts -->
      <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
         <div class="emailRow__checkbox">
@@ -540,7 +607,7 @@
             <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
         </div>
         <div class="emailRow__date">
-            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__dateText">Feb 29</div>
             <div class="emailRow__timeText">12:34 PM</div>
         </div>
     </div>
@@ -564,7 +631,7 @@
             <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
         </div>
         <div class="emailRow__date">
-            <div class="emailRow__dateText">Mar 29</div>
+            <div class="emailRow__dateText">Feb 29</div>
             <div class="emailRow__timeText">12:34 PM</div>
         </div>
     </div>
@@ -592,12 +659,13 @@
                 <span style="color: gray;" class="material-icons" onclick="archiveRow(this.closest('.emailRow'))">archive</span>
             </div>
             <div class="emailRow__date">
-                <div class="emailRow__dateText">Mar 29</div>
+                <div class="emailRow__dateText">Feb 29</div>
                 <div class="emailRow__timeText">12:34 PM</div>
             </div>
         </div>
         <!-- Email row ends -->
-
+</div>
+</div>
     </section> 
 
 <script>
