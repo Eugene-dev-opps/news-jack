@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>News Jack Settings</title>
+	<link rel="stylesheet" href="settings.css">
+</head>
+<body>
+	<script>
+		// Add functionality to save changes button
+var saveButtons = document.querySelectorAll('button[type="submit"]');
+for (var i = 0; i < saveButtons.length; i++) {
+	saveButtons[i].addEventListener('click', function(event) {
+		event.preventDefault();
+		alert('Changes saved successfully!');
+	});
+}
+$('a[href^="#"]').on('click', function(event) {
+  var target = $(this.getAttribute('href'));
+  if( target.length ) {
+    event.preventDefault();
+    $('html, body').stop().animate({
+      scrollTop: target.offset().top
+    }, 1000);
+  }
+});
+
+	</script>
+	<header>
+		<h1>Mail Webapp Settings</h1>
+		<nav>
+			<ul>
+				<li><a href="#account-settings">Account</a></li>
+				<li><a href="#security-settings">Security</a></li>
+				<li><a href="#notification-settings">Notifications</a></li>
+			  </ul>
+			  
+		</nav>
+	</header>
+	<main>
+		<section>
+			<h2 id="account-settings">Account Settings</h2>
+			<form>
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name"><br>
+
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email"><br>
+
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password"><br>
+
+				<button type="submit">Save Changes</button>
+			</form>
+		</section>
+		<section>
+			<h2 id="security-settings">Security Settings</h2>
+			<form>
+				<label for="old-password">Current Password:</label>
+				<input type="password" id="old-password" name="old-password"><br>
+
+				<label for="new-password">New Password:</label>
+				<input type="password" id="new-password" name="new-password"><br>
+
+				<label for="confirm-password">Confirm New Password:</label>
+				<input type="password" id="confirm-password" name="confirm-password"><br>
+
+				<button type="submit">Save Changes</button>
+			</form>
+		</section>
+		<section>
+			<h2 id="notification-settings">Notification Settings</h2>
+			<form>
+				<label for="enable-notifications">Enable Notifications:</label>
+				<input type="checkbox" id="enable-notifications" name="enable-notifications"><br>
+
+				<label for="notification-frequency">Notification Frequency:</label>
+				<select id="notification-frequency" name="notification-frequency">
+					<option value="daily">Daily</option>
+					<option value="weekly">Weekly</option>
+					<option value="monthly">Monthly</option>
+				</select><br>
+
+				<button type="submit">Save Changes</button>
+			</form>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2023 NewsJack Webapp</p>
+	</footer>
+</body>
+</html>

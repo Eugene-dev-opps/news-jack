@@ -97,3 +97,20 @@ emails.push(newEmail);
 localStorage.setItem('emails', JSON.stringify(emails));
 
 
+const emailRows = document.querySelectorAll('.emailRow');
+
+emailRows.forEach(emailRow => {
+  const icons = emailRow.querySelectorAll('.material-icons');
+  
+  emailRow.addEventListener('mouseover', () => {
+    icons.forEach(icon => {
+      icon.style.display = 'inline-block';
+    });
+  });
+  
+  emailRow.addEventListener('mouseout', () => {
+    icons.forEach(icon => {
+      icon.style.display = 'none';
+    });
+  });
+});

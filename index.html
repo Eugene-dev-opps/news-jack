@@ -15,15 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>NEWS JACK</title> 
 
-
-    
-    <!-- Import Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
-<script src="https://www.googleapis.com/customsearch/v1?key=YOUR-KEY&cx=017576662512468239146:omuauf_lfve&q=cars&callback=hndlr"></script>
-
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -137,105 +128,7 @@
                                   <span class="text nav-text">Archived</span>           
                            </a>              
                    </li>  
-                   
-                   <form id="label-form">
-                    <label for="label-input" style="font-weight: 600; color: dimgray; ">Create label:</label>
-                    <input type="text" id="label-input" name="label-input" class="input-css" required>
-                    <button type="submit">Create</button>
-                </form>
 
-                <div id="label-list"></div>
-
-                <h2>Conversations</h2>
-            
-                <div id="conversation-list" style="padding-bottom: 8px;"></div>
-
-                
-                 
-                <script>
-                    const labelForm = document.getElementById('label-form');
-                    const labelList = document.getElementById('label-list');
-                    const conversationList = document.getElementById('conversation-list');
-                    let labels = [];
-            
-                    function createLabel(name) {
-                        const label = {
-                            name: name,
-                            conversations: []
-                        };
-                        labels.push(label);
-                        updateLabelList();
-                        return label;
-                    }
-            
-                    function addConversation(label, conversation) {
-                        if (!label.conversations.includes(conversation)) {
-                            label.conversations.push(conversation);
-                            updateConversationList(label.conversations);
-                        }
-                    }
-            
-                    function removeConversation(label, conversation) {
-                        const index = label.conversations.indexOf(conversation);
-                        if (index !== -1) {
-                            label.conversations.splice(index, 1);
-                            updateConversationList(label.conversations);
-                        }
-                    }
-            
-                    function updateLabelList() {
-                        labelList.innerHTML = '';
-                        labels.forEach(label => {
-                            const element = document.createElement('div');
-                            element.classList.add('label');
-                            element.textContent = label.name;
-                            if (label.conversations.length > 0) {
-                            element.classList.add('active');
-                            }
-                            element.addEventListener('click', () => {
-                            updateConversationList(label);
-                            });
-                            labelList.appendChild(element);
-                        });
-                        }
-
-            
-                    function updateConversationList(label) {
-                        conversationList.innerHTML = '';
-                        if (label.conversations.length > 0) {
-                            label.conversations.forEach(conversation => {
-                            const element = document.createElement('div');
-                            element.classList.add('conversation');
-                            const checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.checked = true;
-                            checkbox.addEventListener('click', () => {
-                                if (checkbox.checked) {
-                                addConversation(label, conversation);
-                                } else {
-                                removeConversation(label, conversation);
-                                }
-                            });
-                            element.appendChild(checkbox);
-                            element.innerHTML += '<h2>' + conversation.subject + '</h2>' + '<p>' + conversation.body + '</p>';
-                            conversationList.appendChild(element);
-                            });
-                        } else {
-                            const element = document.createElement('p');
-                            element.textContent = 'No conversations found.';
-                            conversationList.appendChild(element);
-                        }
-                        updateLabelList();
-                        }
-
-            
-                    labelForm.addEventListener('submit', event => {
-                        event.preventDefault();
-                        const name = labelForm.elements['label-input'].value;
-                        createLabel(name);
-                        labelForm.reset;
-                        });
-                        </script>
             
 
                     <li class="nav-link">
@@ -248,11 +141,17 @@
             </div>
 
             <div class="bottom-content">
+                <script>document.querySelector('.fa-sign-out').addEventListener('click', function() {
+                    // Code to log the user out goes here
+                    window.location.replace("Login.html");
+
+                });
+                </script>
                 <li class="">
-                    <a href="#">
-                        <i class='bx bx-log-out icon' ></i>
+                    <a href="logout.php">
+                        <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Logout</span>
-                    </a>
+                    </a>                    
                 </li>
                 
                 <li class="mode">
@@ -541,7 +440,7 @@
     <!-- Email row ends -->
 
     <!-- Email row starts -->
-    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)">
+    <div class="emailRow" id="email_Row" onclick="toggleFontWeight(this)" data-label="Important">
         <div class="emailRow__checkbox">
             <input type="checkbox" name="email"> 
         </div>
