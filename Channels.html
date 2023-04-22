@@ -1,35 +1,109 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-	<title>User Dashboard</title>
-    <link rel="stylesheet" href="channels.css">
-</head>
-<body>
-	<h1>Welcome to Your Dashboard</h1>
-	<p>Here are the channels you are currently subscribed to:</p>
-	<ul>
-		<li>Channel 1 <button onclick="unsubscribeChannel('channel1')">Unsubscribe</button></li>
-		<li>Channel 2 <button onclick="unsubscribeChannel('channel2')">Unsubscribe</button></li>
-		<li>Channel 3 <button onclick="unsubscribeChannel('channel3')">Unsubscribe</button></li>
-	</ul>
-	<h2>Subscribe to New Channels</h2>
-	<form onsubmit="return subscribeChannel()">
-		<label for="email">Enter your email address:</label>
-		<input type="email" id="email" name="email" required>
-		<input type="submit" value="Subscribe">
-	</form>
-	<script>
-		function unsubscribeChannel(channelName) {
-			// TODO: Remove the specified channel from the user's subscription list
-			alert(`You have successfully unsubscribed from ${channelName}`);
-		}
-
-		function subscribeChannel() {
-			// TODO: Add the new channel to the user's subscription list
-			alert('You have successfully subscribed to the new channel');
-			return false;
-		}
-	</script>
-</body>
-</html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Channels</title>
+    <link rel="stylesheet" href="channel.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>Channels</h1>
+      <div class="switch">
+        <label class="switch-label">
+          <input id="theme-toggle" type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Dark Mode</span>
+      </div>
+    </div>
+    <button class="back-button" onclick="goBack()"><span class="arrow"></span>Back</button>
+    <div class="container">
+        <!-- Channel 1 -->
+        <div class="channel subscribed">
+          <img class="channel-logo" src="https://via.placeholder.com/50" alt="Channel logo" />
+          <div class="channel-info">
+            <div class="channel-name">Channel 1</div>
+            <div class="channel-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </div>
+          <button class="button button-unsubscribe">Unsubscribe</button>
+        </div>
+      
+        <!-- Channel 2 -->
+        <div class="channel unsubscribed">
+          <img class="channel-logo" src="https://via.placeholder.com/50" alt="Channel logo" />
+          <div class="channel-info">
+            <div class="channel-name">Channel 2</div>
+            <div class="channel-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </div>
+          <button class="button button-subscribe">Subscribe</button>
+        </div>
+      
+        <!-- Channel 3 -->
+        <div class="channel subscribed">
+          <img class="channel-logo" src="https://via.placeholder.com/50" alt="Channel logo" />
+          <div class="channel-info">
+            <div class="channel-name">Channel 3</div>
+            <div class="channel-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </div>
+          <button class="button button-unsubscribe">Unsubscribe</button>
+        </div>
+      
+        <!-- Channel 4 -->
+        <div class="channel unsubscribed">
+          <img class="channel-logo" src="https://via.placeholder.com/50" alt="Channel logo" />
+          <div class="channel-info">
+            <div class="channel-name">Channel 4</div>
+            <div class="channel-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </div>
+          <button class="button button-subscribe">Subscribe</button>
+        </div>
+      
+        <!-- Newly Subscribed Channels -->
+        <div id="channel-container" class="container"></div>
+      </div>
+      
+      <script>
+        function subscribeToChannel(channelDetails) {
+          // Create a new row for the subscribed channel
+          const newChannel = document.createElement('div');
+          newChannel.classList.add('channel', 'subscribed');
+          newChannel.innerHTML = `
+            <img class="channel-logo" src="${channelDetails.logo}" alt="${channelDetails.name} logo" />
+            <div class="channel-info">
+              <div class="channel-name">${channelDetails.name}</div>
+              <div class="channel-description">${channelDetails.description}</div>
+            </div>
+            <button class="button button-unsubscribe">Unsubscribe</button>
+          `;
+          
+          // Add the new channel row to the channel container
+          const channelContainer = document.getElementById('channel-container');
+          channelContainer.appendChild(newChannel);
+      
+          // Send an AJAX request to the server to notify the user of the subscription
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '/subscribe', true);
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.send(JSON.stringify(channelDetails));
+        }
+      </script>
+      <script>
+        function goBack() {
+          window.history.back();
+        }
+      </script>
+      
+          </div>
+          <script src="channels.js"></script>
+        </body>
+      </html>
+      

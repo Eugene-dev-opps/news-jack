@@ -1,0 +1,205 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .switch-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch-label input {
+    display: none;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  .switch-label:last-child {
+    margin-left: 10px;
+  }
+  
+  .switch-label .switch-label {
+    display: none;
+  }
+  
+  .switch-label:last-child .switch-label {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+  }
+  
+  .channel {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .channel-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .channel-info {
+    flex: 1;
+  }
+  
+  .channel-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .channel-description {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .button-subscribe {
+    background-color: #2196f3;
+  }
+  
+  .button-unsubscribe {
+    background-color: #f44336;
+  }
+  
+  .button:hover {
+    opacity: 0.8;
+  }
+  /* Dark Mode */
+/* Dark mode */
+.dark-mode {
+    background-color: #1a1a1a;
+    color: #f1f1f1;
+  }
+  
+  .dark-mode .header {
+    background-color: #262626;
+    color: #f1f1f1;
+  }
+  
+  .dark-mode .container {
+    background-color: #262626;
+  }
+  
+  .dark-mode .channel {
+    border-bottom: 1px solid #333333;
+  }
+  
+  .dark-mode .channel:hover {
+    background-color: #333333;
+  }
+  
+  .dark-mode .channel-info {
+    color: #f396c6;
+  }
+  
+  .dark-mode .button {
+    background-color: #e99898;
+    color: #1a1a1a;
+  }
+  
+  .dark-mode .button:hover {
+    background-color: #cccccc;
+  }
+  
+  .back-button {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #1a73e8;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 8px;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #1a73e8;
+  }
+  

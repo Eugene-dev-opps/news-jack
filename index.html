@@ -129,7 +129,8 @@
                            </a>              
                    </li>  
 
-            
+                   <!-- Labels dropdown -->
+                  
 
                     <li class="nav-link">
                            <a href="setttings.html">
@@ -140,15 +141,22 @@
                 </ul>
             </div>
 
-            <div class="bottom-content">
-                <script>document.querySelector('.fa-sign-out').addEventListener('click', function() {
-                    // Code to log the user out goes here
-                    window.location.replace("Login.html");
-
+            <script>
+                const logoutBtn = document.getElementById('logout-btn');
+                logoutBtn.addEventListener('click', function() {
+                    auth.signOut()
+                        .then(() => {
+                            // redirect to login page
+                            window.location.href = 'login.html';
+                        })
+                        .catch((error) => {
+                            // handle logout error
+                            console.log(error);
+                        });
                 });
-                </script>
-                <li class="">
-                    <a href="logout.php">
+            </script>
+                <li class="" id="logout-btn">
+                    <a href="#">
                         <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Logout</span>
                     </a>                    
@@ -410,7 +418,6 @@
 
                         displayEmails(); // call this at the bottom to display the stored emails
                     </script>
-
 
                     <!-- Email group starts -->
 <div class="emailGroup">

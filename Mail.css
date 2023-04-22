@@ -74,3 +74,24 @@
     background-color: #fff8;
     box-shadow: 0 .1rem .4rem #0002;
 }
+.back-button {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #1a73e8;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 8px;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #1a73e8;
+  }
+  
