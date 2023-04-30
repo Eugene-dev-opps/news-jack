@@ -45,15 +45,15 @@
                 <h2 class="title">Sign Up</h2>
                 <div class="input-field">
                     <i class='bx bxs-user'></i>
-                    <input type="text" placeholder="Username">
+                    <input type="text" id="username" placeholder="Username">
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-envelope'></i>
-                    <input type="text" placeholder="Email">
+                    <input type="text" id="email" placeholder="Email">
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-lock-alt'></i>
-                    <input type="password" placeholder="Password">
+                    <input type="password" id="password" placeholder="Password">
                 </div>
                 <input type="submit" value="Sign Up" class="btn solid">
                 <p class="social-text">Or sign up with social platforms</p>
@@ -83,7 +83,7 @@
                     </p>
                     <button class="btn transparent" id="sign-up-btn">Sign up</button>
                 </div>
-                <img src="/images/Profiling_Monochromatic.png" class="image" alt="">
+                <img src="D:\NEWS ADV\public\images/Profiling_Monochromatic.png" class="image" alt="">
             </div>
             <div class="panel right-panel">
                 <div class="content">
@@ -92,32 +92,63 @@
                     </p>
                     <button class="btn transparent" id="sign-in-btn">Sign in</button>
                 </div>
-                <img src="/images/Authentication_Outline.png" class="image" alt="">
+                <img src="D:\NEWS ADV\public\images/Authentication_Outline.png" class="image" alt="">
             </div>
         </div>
     </div>
+<script>
+    const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+const username = document.getElementById("username").value;
+firebase.auth().createUserWithEmailAndPassword(email, password, username)
+  .then((userCredential) => {
+    // User account created successfully
+    const user = userCredential.user;
+    console.log("User created:", user);
+  })
+  .catch((error) => {
+    // Error occurred while creating user account
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("Error creating user:", errorMessage);
+  });
 
-    <!-- Import the Firebase App SDK -->
+</script>
+  <!-- Import the Firebase App and Auth SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
-<!-- Your web app's Firebase configuration -->
+
+<!-- Initialize Firebase -->
 <script>
   const firebaseConfig = {
-    apiKey: "AIzaSyDhULZCa9Cdt6tWejYuS4fVClDSlg-Jxlg",
-    authDomain: "news-jack-e02a9.firebaseapp.com",
-    projectId: "news-jack-e02a9",
-    storageBucket: "news-jack-e02a9.appspot.com",
-    messagingSenderId: "589702884505",
-    appId: "1:589702884505:web:845fcae2fe8ff54fcd1c08"
-  };
+    // Your Firebase project configuration object
+    apiKey: "AIzaSyCg8O1OPzXJfKudTOxlkI7i30cgbtQQuDw",
+                authDomain: "news-jack-385100.firebaseapp.com",
+                projectId: "news-jack-385100",
+                storageBucket: "news-jack-385100.appspot.com",
+                messagingSenderId: "393861766256",
+                appId: "1:393861766256:web:639e7a813fdb41922fe8b5",
+                measurementId: "G-K7TGBN2MEJ"
+                };
 
-  // Initialize Firebase
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
+                const analytics = getAnalytics(app);
+
+                
+                var admin = require("firebase-admin");
+
+                var serviceAccount = require("path/to/serviceAccountKey.json");
+
+                admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount)
+                });
   firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
 </script>
 
-    <script src="login.js"></script>
+
     <script src="js/auth.js"></script>
     <script src="server.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
